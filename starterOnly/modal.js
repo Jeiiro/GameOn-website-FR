@@ -9,9 +9,12 @@ function editNav() {
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
+const modalsuccess = document.querySelector(".modal-success");
+const submitBtn = document.querySelector(".btn-submit");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelectorAll(".close");
+const closeModalBtn = document.querySelectorAll(".btn-close");
 const firstMessageError =
   "Minimum 2 caractères. Les chiffres et caractères spéciaux différents de - ne sont pas autorisés.";
 const lastMessageError =
@@ -30,8 +33,33 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
+// launch modal success form
+
+function launchModalSuccess() {
+  modalbg.style.display = "none";
+  modalsuccess.style.display = "block";
+}
+
+//reset form
+
+// launch modal success event
+
+submitBtn.addEventListener("click", launchModalSuccess);
+
 // close modal event
 closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
+
+// close modal success event
+
+closeModalBtn.forEach((btn) =>
+  btn.addEventListener("click", closeModalSuccess)
+);
+closeBtn.forEach((btn) => btn.addEventListener("click", closeModalSuccess));
+
+// close modal success form
+function closeModalSuccess() {
+  modalsuccess.style.display = "none";
+}
 
 // close modal form
 function closeModal() {
@@ -195,4 +223,5 @@ let form = document.querySelector("form");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+  form.reset();
 });

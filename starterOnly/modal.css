@@ -158,7 +158,8 @@ main {
   font-size: 16px;
 }
 
-.bground {
+.bground,
+.modal-success {
   display: none;
   position: fixed;
   z-index: 1;
@@ -170,7 +171,8 @@ main {
   background-color: rgba(26, 39, 156, 0.4);
 }
 
-.content {
+.content,
+.modal-content {
   margin: 5% auto;
   width: 100%;
   max-width: 500px;
@@ -184,9 +186,19 @@ main {
   padding-top: 10px;
 }
 
-.modal-body {
+.modal-body,
+.modal-contain {
   padding: 15px 8%;
   margin: 15px auto;
+}
+
+.modal-contain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 35vh;
+  height: 80vh;
 }
 
 label {
@@ -323,7 +335,8 @@ input[data-error]::after {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup {
+.btn-signup,
+.btn-close {
   background: #fe142f;
   display: block;
   margin: 0 auto;
