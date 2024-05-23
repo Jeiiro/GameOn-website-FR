@@ -15,6 +15,8 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelectorAll(".close");
 const closeModalBtn = document.querySelectorAll(".btn-close");
+
+// Message ERROR
 const firstMessageError =
   "Minimum 2 caractères. Les chiffres et caractères spéciaux différents de - ne sont pas autorisés.";
 const lastMessageError =
@@ -25,6 +27,7 @@ const quantityMessageError = "La quantité doit être compris entre 0 et 99.";
 const locationsMessageError = "Veuillez sélectionner la ville du tournoi.";
 const conditionsMessageError =
   "Les conditions d'utilisation doivent être lus et acceptés pour valider l'inscription.";
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -32,19 +35,6 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
 }
-
-// launch modal success form
-
-function launchModalSuccess() {
-  modalbg.style.display = "none";
-  modalsuccess.style.display = "block";
-}
-
-//reset form
-
-// launch modal success event
-
-submitBtn.addEventListener("click", launchModalSuccess);
 
 // close modal event
 closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
@@ -86,26 +76,48 @@ function validateBirthdateValue(birthdateValue) {
 
 function validate() {
   validateFirst();
+  console.log(validateFirst());
   validateLast();
+  console.log(validateLast());
   validateEmail();
+  console.log(validateEmail());
   validateBirthdate();
+  console.log(validateBirthdate());
   validateQuantity();
+  console.log(validateQuantity());
   validateLocations();
+  console.log(validateLocations());
   validateConditions();
+  console.log(validateConditions());
   validateNews();
+  console.log(validateNews());
+  if (
+    validateFirst() &&
+    validateLast() &&
+    validateEmail() &&
+    validateBirthdate() &&
+    validateQuantity() &&
+    validateLocations() &&
+    validateConditions() === true
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 }
 function validateFirst() {
   let firstName = document.getElementById("first");
   let firstNameValue = firstName.value;
   let regexFirst = new RegExp("^[a-zA-Z-]{2,}$");
   let validFirst = regexFirst.test(firstNameValue);
-  console.log(validFirst);
   if (validFirst === false) {
     firstName.parentElement.setAttribute("data-error-visible", "true");
     firstName.parentElement.setAttribute("data-error", firstMessageError);
+    return false;
   } else {
     firstName.parentElement.removeAttribute("data-error-visible");
     firstName.parentElement.removeAttribute("data-error");
+    return true;
   }
 }
 function validateLast() {
@@ -113,13 +125,14 @@ function validateLast() {
   let lastNameValue = lastName.value;
   let regexLast = new RegExp("^[a-zA-Z-]{2,}$");
   let validLast = regexLast.test(lastNameValue);
-  console.log(validLast);
   if (validLast === false) {
     lastName.parentElement.setAttribute("data-error-visible", "true");
     lastName.parentElement.setAttribute("data-error", lastMessageError);
+    return false;
   } else {
     lastName.parentElement.removeAttribute("data-error-visible");
     lastName.parentElement.removeAttribute("data-error");
+    return true;
   }
 }
 function validateEmail() {
@@ -127,26 +140,28 @@ function validateEmail() {
   let emailValue = email.value;
   let regexEmail = new RegExp("^[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+$");
   let validEmail = regexEmail.test(emailValue);
-  console.log(validEmail);
   if (validEmail === false) {
     email.parentElement.setAttribute("data-error-visible", "true");
     email.parentElement.setAttribute("data-error", emailMessageError);
+    return false;
   } else {
     email.parentElement.removeAttribute("data-error-visible");
     email.parentElement.removeAttribute("data-error");
+    return true;
   }
 }
 function validateBirthdate() {
   let birthdate = document.getElementById("birthdate");
   let birthdateValue = birthdate.value;
   validateBirthdateValue(birthdateValue);
-  console.log(validateBirthdateValue(birthdateValue));
   if (validateBirthdateValue(birthdateValue) === false) {
     birthdate.parentElement.setAttribute("data-error-visible", "true");
     birthdate.parentElement.setAttribute("data-error", birthdateMessageError);
+    return false;
   } else {
     birthdate.parentElement.removeAttribute("data-error-visible");
     birthdate.parentElement.removeAttribute("data-error");
+    return true;
   }
 }
 function validateQuantity() {
@@ -154,13 +169,14 @@ function validateQuantity() {
   let quantityValue = quantity.value;
   let regexQuantity = new RegExp("^[1-9][0-9]?$");
   let validQuantity = regexQuantity.test(quantityValue);
-  console.log(validQuantity);
   if (validQuantity === false) {
     quantity.parentElement.setAttribute("data-error-visible", "true");
     quantity.parentElement.setAttribute("data-error", quantityMessageError);
+    return false;
   } else {
     quantity.parentElement.removeAttribute("data-error-visible");
     quantity.parentElement.removeAttribute("data-error");
+    return true;
   }
 }
 function validateLocations() {
@@ -178,10 +194,8 @@ function validateLocations() {
     location5,
     location6,
   ];
-  console.log(locations);
   let validLocations = "";
   validLocations = locations.find((input) => input.checked === true);
-  console.log(validLocations);
   if (validLocations === undefined) {
     location1.parentElement.setAttribute("data-error-visible", "true");
     location1.parentElement.setAttribute("data-error", locationsMessageError);
@@ -197,22 +211,18 @@ function validateConditions() {
   if (condition.checked) {
     condition.parentElement.removeAttribute("data-error-visible");
     condition.parentElement.removeAttribute("data-error");
-    console.log(true);
     return true;
   } else {
     condition.parentElement.setAttribute("data-error-visible", "true");
     condition.parentElement.setAttribute("data-error", conditionsMessageError);
-    console.log(false);
     return false;
   }
 }
 function validateNews() {
   let news = document.getElementById("checkbox2");
   if (news.checked) {
-    console.log(true);
     return true;
   } else {
-    console.log(false);
     return false;
   }
 }
@@ -223,5 +233,16 @@ let form = document.querySelector("form");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  form.reset();
+  validate();
+  if (validate() === true) {
+    launchModalSuccess();
+    form.reset();
+  }
 });
+
+// launch modal success form
+
+function launchModalSuccess() {
+  modalbg.style.display = "none";
+  modalsuccess.style.display = "block";
+}
